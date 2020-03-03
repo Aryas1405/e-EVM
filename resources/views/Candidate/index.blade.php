@@ -18,7 +18,7 @@
     <tr>    
     <td>{{ $candidate->name}}</td>
     
-    <td>{{ $candidate->party}}</td>
+    <td>{{ $candidate->party->title}}</td>
     <td>{{ $candidate->district->name}}</td>
     
     <td class="form-group row">

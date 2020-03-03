@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Party;
 use App\Candidate;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image as Photo;
 
 class PartyController extends Controller
 {
@@ -40,6 +41,12 @@ class PartyController extends Controller
         $party=new Party;
         $party->title=$request->title;
         $party->description=$request->description;
+        if($request->file('image'))
+        {
+            $filename = $this->uploadImage($request->file('image'));
+
+            $party->image = $filename;
+        }
         $party->save();
         return redirect()->route('parties.index');
 
@@ -93,6 +100,25 @@ class PartyController extends Controller
     public function destroy(Party $party)
     {
         $party->delete();
+        if($party->image)
+        {
+            $this->deleteImage($party->image);
+        }
         return redirect()->route('parties.index')->with('success', 'Party Deleted');
+    }
+    public function uploadImage($image)
+    {
+        $random_name=time();
+        $extension=$image->getClientOriginalExtension();
+        $filename=$random_name.'.'.$extension;
+        Photo::make($image)->save(public_path('image/'. $filename));
+        return $filename;
+    }
+    public function deleteImage($image)
+    {
+        $filename = public_path('image/' . $image);
+
+        unlink($filename);
+
     }
 }

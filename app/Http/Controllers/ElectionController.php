@@ -81,7 +81,7 @@ class ElectionController extends Controller
         }
         else
         {
-            return 'Your Vote Has Already Submitted !!, Come Again in 2025 Election. Thank You';
+            return redirect('/')->with('danger','Your Vote Has Already Submitted !!, Come Again in 2025 Election. Thank You'); 
         }
     }
 
@@ -94,12 +94,21 @@ class ElectionController extends Controller
     public function save_vote(Candidate $candidate,Voter $voter)
     {
      
+       
+        if($voter->status==1)
+        {
         $voter->status=$voter->status + 1;
         $voter->save();
         $candidate->count = 1 + $candidate->count;
-   
         $candidate->save();
-        return redirect('/');
+        return redirect('/')->with('success','You have Successfully Voted!!');
+        }
+        else
+        {
+        return redirect('/')->with('danger','You have Already Voted!!');
+        }
+        
+        
     }
 
     /**

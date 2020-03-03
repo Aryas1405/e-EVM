@@ -15,6 +15,16 @@
   
 </head>
 <body>
+@if (session('danger'))
+    <div class="alert alert-danger" role="alert">
+        {{ session('danger') }}
+    </div>
+@endif
+@if (session('success'))
+    <div class="alert alert-success" role="alert">
+        {{ session('success') }}
+    </div>
+@endif
 <div class="jumbotron" style="background-color:white;">
 <h3>Welcome '{{$voter->name}}' Please Vote Any candidate</h3>
     <h1 style="text-align:center">-Candidates-</h1>
@@ -34,7 +44,7 @@
     <td>-pic-</td>
     <td>{{ $candidate->name}}</td>
     
-    <td>{{ $candidate->party}}</td>
+    <td>{{ $candidate->party->title}}</td>
 
     
     <td class="form-group row">
@@ -43,7 +53,7 @@
     @csrf
     @method('put')
 
-    <button type="submit" class="btn btn-warning"style="margin-left:10px;">Vote</button></td>
+    <button type="submit" class="btn btn-warning"style="margin-left:10px; border:1px solid green;border-radius:350px;">Vote</button></td>
     </form>
    
 

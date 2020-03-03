@@ -23,7 +23,8 @@ class CandidateController extends Controller
     {
         $candidates=Candidate::all();
         $distid=$request->district;
-        return view('Candidate.result')->withDistid($distid)->withCandidates($candidates);
+        $district=District::find( $distid);
+        return view('Candidate.result')->withDistid($distid)->withCandidates($candidates)->withDistrict($district);
     }
     public function index()
     {
@@ -53,11 +54,21 @@ class CandidateController extends Controller
     {
         $candidate=new Candidate;
         $candidate->name=$request->name;
-        $candidate->party=$request->party;
+        $candidate->party_id=$request->party;
         $candidate->district_id=$request->area;
- 
-        $candidate->save();
-        return redirect()->route('candidates.index')->with('success', 'Candidate Created Successfully');
+        $district=$request->area;
+        $party=$request->party;
+        $candValidateD=Candidate::where('district_id',$district)->where('party_id',$party)->count();
+        if($candValidateD>0)
+        {
+            return redirect()->route('candidates.create')->with('danger', 'The Party Has Already A Candidate For Selected District ');
+        }
+        else
+        {
+            $candidate->save();
+            return redirect()->route('candidates.index')->with('success', 'Candidate Created Successfully');
+        }
+
    }
 
     /**

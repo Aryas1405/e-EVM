@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="jumbotron">
-<form method='POST' action="{{route('parties.store')}}">
+<form method='POST' action="{{route('parties.store')}}" enctype="multipart/form-data">
 @csrf()
 
 <h3 style="margin-top:-60px;">Create Party</h3>

@@ -22,7 +22,7 @@
             <select class="js-example-basic-multiple" name="party" style="width:100%">
             <option disabled selected >--Select Party--</option>
            @foreach($parties as $party)
-            <option value="{{$party->title}}">{{$party->title}}</option>
+            <option value="{{$party->id}}">{{$party->title}}</option>
             @endforeach
             </select>
         <div>
